@@ -1,0 +1,29 @@
+version: '3.1'
+services:
+
+  mongo:
+      image: mongo
+      restart: always    
+      ports:
+        - 27017:27017
+  mongo-express:
+      image: mongo-express
+      restart: always
+      ports:
+        - 8081:8081    
+      depends_on:
+        - mongo
+  users-webapi:
+    build: users-webapi/.
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - ConnectionStrings:MongoDb=mongodb://mongo:27017
+    depends_on:
+      - mongo
+  users-management-ui:
+    build: users-management-ui/.
+    restart: always
+    ports:
+      - 4200:80
