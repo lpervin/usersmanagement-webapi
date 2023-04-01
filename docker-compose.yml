@@ -22,3 +22,8 @@ services:
       - ConnectionStrings:MongoDb=mongodb://mongo:27017
     depends_on:
       - mongo
+  users-management-ui:
+    build: users-management-ui/.
+    restart: always
+    ports:
+      - 4200:80
