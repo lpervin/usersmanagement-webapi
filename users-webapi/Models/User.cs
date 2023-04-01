@@ -5,7 +5,7 @@ namespace users_webapi.Models;
 
 public class User
 {
-   public ObjectId Id { get; set; }
+    public ObjectId Id { get; set; }
     public string Name { get; set; }
     public int Age { get; set; }
     public string Email { get; set; }
@@ -28,5 +28,16 @@ public class UserInfo
     public string Name { get; set; }
     public int Age { get; set; }
     public string Email { get; set; }
+
+    public User ToEntity()
+    {
+        return new User()
+        {
+            Name = this.Name,
+            Age = this.Age,
+            Email = this.Email,
+            Id = string.IsNullOrEmpty(this.Id) ? ObjectId.Empty : new ObjectId(this.Id)
+        };
+    }
 }
 

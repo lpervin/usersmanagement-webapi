@@ -34,4 +34,12 @@ public class UserController : ControllerBase
       await _userRepo.UpdateUserAsync(userId, userToUpdate);
       return Ok(userToUpdate);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddUser(UserInfo userToAdd)
+    {
+        var newUserId = await _userRepo.AddUserAsync(userToAdd);
+        return Ok(newUserId);
+    }
+
 }

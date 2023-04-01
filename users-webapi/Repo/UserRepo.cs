@@ -10,13 +10,14 @@ namespace users_webapi.Repo;
 public class UserRepo : IUserRepo
 {
     private readonly IMongoDatabase _mongoDatabase;
-    private IMongoCollection<User> _users;
+    private IMongoCollection<User> _usersMongoCollection;
 
     public  UserRepo(IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("mongodb");
         var mongoClient = new MongoClient(connectionString);
         _mongoDatabase = mongoClient.GetDatabase("AppManagement");
+        _usersMongoCollection = _mongoDatabase.GetCollection<User>("Users");
          SeedTestData();
     }
 
@@ -35,7 +36,7 @@ public class UserRepo : IUserRepo
                     PipelineStageDefinitionBuilder.Limit<User>(paging.PageSize)}
             ));
         var filter = Builders<User>.Filter.Empty;
-        var aggregation = await _users.Aggregate()
+        var aggregation = await _usersMongoCollection.Aggregate()
             .Match(filter)
             .Facet(countFacet, dataFacet)
             .ToListAsync();
@@ -66,7 +67,7 @@ public class UserRepo : IUserRepo
     {
       var objUserId =  ObjectId.Parse(userId);
       var userQuery = Builders<User>.Filter.Eq("_id", objUserId);
-      var userEntity = (await _users.FindAsync(userQuery)).FirstOrDefault();
+      User? userEntity = (await _usersMongoCollection.FindAsync(userQuery)).FirstOrDefault();
       if (userEntity == null)
         throw new KeyNotFoundException(userId);
 
@@ -74,15 +75,22 @@ public class UserRepo : IUserRepo
       userEntity.Email = userToUpdate.Email;
       userEntity.Age = userToUpdate.Age;
 
-      var result = await _users.ReplaceOneAsync(userQuery, userEntity);
+      var result = await _usersMongoCollection.ReplaceOneAsync(userQuery, userEntity);
       if (result.ModifiedCount < 1)
         throw new ApplicationException("Updated Failed");
     }
 
+    public async Task<string> AddUserAsync(UserInfo userToAdd)
+    {
+        var userDocument = userToAdd.ToEntity();
+        await _usersMongoCollection.InsertOneAsync(userDocument);
+        return userDocument.Id.ToString();
+    }
+
     public void  SeedTestData()
     {
-      _users = _mongoDatabase.GetCollection<User>("Users");
-      var usersCount =  _users.CountDocuments(FilterDefinition<User>.Empty);
+    
+      var usersCount =  _usersMongoCollection.CountDocuments(FilterDefinition<User>.Empty);
       if (usersCount>2)
         return;
 
@@ -92,9 +100,8 @@ public class UserRepo : IUserRepo
         .RuleFor(u => u.Age, f => f.Random.Number(18, 100));
 
       // Generate 1000 random users
-      var users = userFaker.Generate(1000);
-       _users.InsertMany(users);
-
+        var users = userFaker.Generate(1000);
+       _usersMongoCollection.InsertMany(users);
 
     }
 

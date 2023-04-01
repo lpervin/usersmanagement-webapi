@@ -9,5 +9,7 @@ public interface IUserRepo
 
     Task UpdateUserAsync(string userId, UserInfo userToUpdate);
 
+    Task<string> AddUserAsync(UserInfo userToAdd);
+
     void SeedTestData();
 }

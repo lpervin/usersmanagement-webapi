@@ -17,13 +17,8 @@ services:
     build: users-webapi/.
     restart: always
     ports:
-      - 8080:80
+      - 8090:80
     environment:
       - ConnectionStrings:MongoDb=mongodb://mongo:27017
     depends_on:
       - mongo
-  users-management-ui:
-    build: users-management-ui/.
-    restart: always
-    ports:
-      - 4200:80
