@@ -38,8 +38,8 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddUser(UserInfo userToAdd)
     {
-        var newUserId = await _userRepo.AddUserAsync(userToAdd);
-        return Ok(newUserId);
+        var newUser = await _userRepo.AddUserAsync(userToAdd);
+        return Ok(newUser);
     }
 
 }
