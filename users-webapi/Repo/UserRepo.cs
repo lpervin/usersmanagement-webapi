@@ -80,11 +80,11 @@ public class UserRepo : IUserRepo
         throw new ApplicationException("Updated Failed");
     }
 
-    public async Task<string> AddUserAsync(UserInfo userToAdd)
+    public async Task<UserInfo> AddUserAsync(UserInfo userToAdd)
     {
         var userDocument = userToAdd.ToEntity();
         await _usersMongoCollection.InsertOneAsync(userDocument);
-        return userDocument.Id.ToString();
+        return userDocument.ToUserInfo();
     }
 
     public void  SeedTestData()
