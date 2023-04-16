@@ -21,12 +21,12 @@ public class TestController : ControllerBase
   {
     try
     {
-        var connectionString = _configuration.GetConnectionString("mongodb");
-        var mC = new MongoClient(connectionString);
-        var _mongoDatabase = mC.GetDatabase("AppManagement");
-        var _users = _mongoDatabase.GetCollection<User>("Users");
-        var usersCount = await _users.CountDocumentsAsync(FilterDefinition<User>.Empty);
-        return Ok(usersCount);
+        var connectionString = _configuration.GetConnectionString("default");
+        // var mC = new MongoClient(connectionString);
+        // var _mongoDatabase = mC.GetDatabase("AppManagement");
+        // var _users = _mongoDatabase.GetCollection<User>("Users");
+        // var usersCount = await _users.CountDocumentsAsync(FilterDefinition<User>.Empty);
+        return Ok(connectionString);
     }
     catch (Exception e)
     {

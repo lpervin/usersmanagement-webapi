@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>users_webapi</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>c69e3c06-186b-42ac-a6bf-50fe0c024e4b</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>

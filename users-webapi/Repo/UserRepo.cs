@@ -14,8 +14,8 @@ public class UserRepo : IUserRepo
 
     public  UserRepo(IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("mongodb");
-        var mongoClient = new MongoClient(connectionString);
+         var connectionString = configuration.GetConnectionString("default");
+         var mongoClient = new MongoClient(connectionString);
         _mongoDatabase = mongoClient.GetDatabase("AppManagement");
         _usersMongoCollection = _mongoDatabase.GetCollection<User>("Users");
          SeedTestData();

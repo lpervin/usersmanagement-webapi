@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.VisualBasic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using users_webapi.Models;
