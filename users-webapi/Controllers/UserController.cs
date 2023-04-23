@@ -42,4 +42,12 @@ public class UserController : ControllerBase
         return Ok(newUser);
     }
 
+    [HttpDelete]
+    [Route("{userId}")]
+    public async Task<IActionResult> DeleteUser(string userId)
+    {
+        await _userRepo.DeleteUserAsync(userId);
+        return Ok(new UserInfo() { Id = userId});
+    }
+
 }

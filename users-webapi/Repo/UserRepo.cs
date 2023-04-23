@@ -87,6 +87,14 @@ public class UserRepo : IUserRepo
         return userDocument.ToUserInfo();
     }
 
+    public async Task DeleteUserAsync(string userId)
+    {
+        var filter = Builders<User>.Filter.Eq("_id", ObjectId.Parse(userId));
+        var result = await  _usersMongoCollection.DeleteOneAsync(filter);
+        if (result.DeletedCount != 1)
+            throw new KeyNotFoundException(userId);
+    }
+
     public void  SeedTestData()
     {
     

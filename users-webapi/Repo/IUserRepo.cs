@@ -11,5 +11,7 @@ public interface IUserRepo
 
     Task<UserInfo> AddUserAsync(UserInfo userToAdd);
 
+    Task DeleteUserAsync(string userId);
+
     void SeedTestData();
 }
