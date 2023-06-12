@@ -1,8 +1,10 @@
+using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using users_webapi.Models;
 using users_webapi.Models.Request;
 using users_webapi.Repo;
+using users_webapi.TypeConverters;
 
 namespace users_webapi.Controllers;
 
@@ -21,6 +23,7 @@ public class UserController : ControllerBase
 
 
     [HttpGet]
+    [TypeConverter(typeof(PageInfoTypeConverter))]
     public async Task<IActionResult> ListUser([FromQuery] PageInfo paging)
     {
         var results = await _userRepo.ListUsersAsync(paging);

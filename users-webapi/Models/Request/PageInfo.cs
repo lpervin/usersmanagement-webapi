@@ -19,7 +19,9 @@ public class PageInfo
     }
     public int PageNumber { get => _pageNum; set => _pageNum = value; }
     public int PageSize { get => _pageSize; set => _pageSize = value; }
-    public string? SortByName { get => _sortBy;  }
+    public string? SortByName { get => _sortBy;
+        set => _sortBy = value;
+    }
      public string? OrderBy { get => _sortBy; set => _orderBY = value;
      }
     [JsonIgnore]
@@ -32,8 +34,8 @@ public class PageInfo
 
             return parsedSortBy;
 
-        }
-          }
+        } 
+    }
 
 }
 

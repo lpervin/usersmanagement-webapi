@@ -36,9 +36,17 @@ public class UserRepo : IUserRepo
                     PipelineStageDefinitionBuilder.Limit<User>(paging.PageSize)}
             ));
         var filter = Builders<User>.Filter.Empty;
-        var aggregation = await _usersMongoCollection.Aggregate()
+        
+      
+        var collation = new Collation("en", numericOrdering: true);
+        var options = new AggregateOptions()
+        {
+            Collation = collation
+        };
+        var aggregation = await _usersMongoCollection.Aggregate(options)
             .Match(filter)
             .Facet(countFacet, dataFacet)
+           
             .ToListAsync();
 
         var count = aggregation.First()
